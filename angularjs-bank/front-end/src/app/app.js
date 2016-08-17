@@ -4,6 +4,8 @@ angular.module('bank', [
   'bank.home',
   'bank.register',
   'bank.common.http',
+  'bank.login',
+  'bank.useraccount',
   'ui.router'
 ])
 
@@ -12,7 +14,9 @@ angular.module('bank', [
   })
 
   .constant('bankEndpoints', {
-    REGISTER: '/r/register/'
+    LOGIN: '/r/login/',
+    REGISTER: '/r/register/',
+    USER: '/r/account/'
   })
 
 

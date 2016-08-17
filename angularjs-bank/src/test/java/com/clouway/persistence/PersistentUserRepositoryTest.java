@@ -34,6 +34,21 @@ public class PersistentUserRepositoryTest {
 
     assertThat(user, is(expected));
   }
+
+  @Test
+  public void authenticate() throws Exception {
+    String email = "admin@abv.bg";
+    String password = "adminadmin";
+    String username = "GlobalAdmin";
+
+    userRepository.register(new User(username, password, email));
+
+    boolean isAuthenticated = userRepository.authenticate(email, password);
+
+    boolean expected = true;
+
+    assertThat(expected, is(equalTo(isAuthenticated)));
+  }
 }
 
 

@@ -15,6 +15,16 @@ public class ApplicationModule extends AbstractModule {
   }
 
   @Provides
+  public CookieFinder getCookie() {
+    return new CookieFinderImpl();
+  }
+
+  @Provides
+  public RandomGenerator getUUID() {
+    return new RandomGeneratorImpl();
+  }
+
+  @Provides
   public Validator getValidator() {
     return new DataValidator();
   }

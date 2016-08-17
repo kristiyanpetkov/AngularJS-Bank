@@ -27,4 +27,18 @@ public class DataValidator implements Validator {
     }
     return result;
   }
+
+  public boolean isValid(String email, String password) {
+    boolean result = false;
+    String emailPattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+    String passwordPattern = "^[a-zA-Z0-9]{6,16}+$";
+    Pattern ePattern = Pattern.compile(emailPattern);
+    Pattern pPattern = Pattern.compile(passwordPattern);
+    Matcher eMatcher = ePattern.matcher(email);
+    Matcher pMatcher = pPattern.matcher(password);
+    if (eMatcher.matches() && pMatcher.matches()) {
+      result = true;
+    }
+    return result;
+  }
 }

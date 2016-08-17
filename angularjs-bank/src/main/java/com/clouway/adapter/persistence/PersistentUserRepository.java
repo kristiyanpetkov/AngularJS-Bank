@@ -9,8 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Kristiyan Petkov  <kristiqn.l.petkov@gmail.com> on 26.05.16.
@@ -63,10 +61,44 @@ public class PersistentUserRepository implements UserRepository {
     try {
       statement = connection.prepareStatement("DELETE FROM users");
       statement.execute();
-      statement.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    } finally {
+      try {
+        if (statement != null) {
+          statement.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
+  }
+
+  public boolean authenticate(String email, String password) {
+    Connection connection = connectionProvider.get();
+    boolean result = false;
+    PreparedStatement statement = null;
+    try {
+      statement = connection.prepareStatement("SELECT * FROM users WHERE email=? AND password=?");
+      statement.setString(1, email);
+      statement.setString(2, password);
+      ResultSet resultSet = statement.executeQuery();
+      if (resultSet.next()) {
+        result = true;
+      }
+      resultSet.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (statement != null) {
+          statement.close();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+    return result;
   }
 }
 

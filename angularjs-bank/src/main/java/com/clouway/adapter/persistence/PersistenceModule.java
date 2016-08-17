@@ -2,6 +2,7 @@ package com.clouway.adapter.persistence;
 
 import com.clouway.adapter.http.PerRequestConnectionProvider;
 import com.clouway.core.ConnectionProvider;
+import com.clouway.core.SessionRepository;
 import com.clouway.core.UserRepository;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -24,4 +25,11 @@ public class PersistenceModule extends AbstractModule {
   public UserRepository getUserRepository(ConnectionProvider connectionProvider) {
     return new PersistentUserRepository(connectionProvider);
   }
+
+  @Provides
+  public SessionRepository getSessionRepository(ConnectionProvider connectionProvider) {
+    return new PersistentSessionRepository(connectionProvider);
+  }
+
+
 }

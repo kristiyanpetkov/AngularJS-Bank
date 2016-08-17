@@ -9,8 +9,12 @@ public class MyServletModule extends ServletModule {
   @Override
   protected void configureServlets() {
     filter("/*").through(ConnectionFilter.class);
+    filter("/*").through(SecurityFilter.class);
 
     serve("/r/register/").with(UserRegistrationService.class);
+    serve("/r/login/").with(UserLoginService.class);
+    serve("/r/account/").with(BankAccountService.class);
+
 
   }
 }

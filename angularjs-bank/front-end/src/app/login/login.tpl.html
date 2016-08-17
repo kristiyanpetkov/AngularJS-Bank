@@ -1,0 +1,23 @@
+<div class="row" ng-init="vm.init()">
+    <div class="col-md-4 coll-md-offset-1 ">
+        <form name="loginUserForm">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" required="required" ng-model="loginUser.email" class="form-control">
+            <br/>
+            <label for="password">Password</label>
+            <input type="password" id="password" maxlength="100" minlength="6" required="required"
+                   ng-model="loginUser.password" class="form-control">
+            <br/>
+            <button class="btn btn-primary" ng-disabled="loginUserForm.$invalid" ng-click="vm.submit(loginUser)">Login
+            </button>
+        </form>
+    </div>
+</div>
+</br>
+<div class="alert alert-success" ng-if=vm.successfulMsg>
+    <strong>{{vm.successfulMsg}}</strong>
+</div>
+</br>
+<div class="alert alert-danger" ng-if=vm.errorMsg>
+    <strong>{{vm.errorMsg}}</strong>
+</div>
