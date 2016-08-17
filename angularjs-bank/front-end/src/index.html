@@ -2,7 +2,6 @@
 <html ng-app="bank" ng-controller="AppCtrl">
 <head>
   <title ng-bind="pageTitle"></title>
-
   <!-- font awesome from BootstrapCDN -->
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -13,8 +12,6 @@
   <script type="text/javascript" src="<%= file %>"></script><% }); %>
 
   <!-- it's stupid to have to load it here, but this is for the +1 button -->
-  <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-    { "parsetags" : "explicit" }
   </script>
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
@@ -39,28 +36,10 @@
             Home
           </a>
         </li>
-        <li ng-hide="isLogged" ng-controller="LoginCtrl">
-          <a href ui-sref="login">
-            <i class="fa fa-arrow-right"></i>
-            Login
-          </a>
-        </li>
-        <li ng-hide="isLogged" ng-controller="LoginCtrl">
+        <li>
           <a href ui-sref="register">
             <i class="fa fa-user"></i>
             Register
-          </a>
-        </li>
-        <li ng-show="isLogged" ng-controller="LoginCtrl" >
-          <a href ui-sref="useraccount">
-            <i class="fa fa-credit-card"></i>
-            User Account
-          </a>
-        </li>
-        <li ng-show="isLogged" ng-controller="LoginCtrl">
-          <a href ui-sref="login">
-            <i class="fa fa-reply"></i>
-            Logout
           </a>
         </li>
       </ul>

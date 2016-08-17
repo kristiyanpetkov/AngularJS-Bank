@@ -1,0 +1,32 @@
+<div class="col-md-4 coll-md-offset-2 ">
+    <form name="registerUserForm">
+        <label for="reg-username">Username</label>
+        <input type="text" id="reg-username" required="required" ng-model="registerUser.username" class="form-control">
+        <br/>
+        <label for="reg-email">Email</label>
+        <input type="email" id="reg-email" required="required" ng-model="registerUser.email" class="form-control">
+        <br/>
+        <label for="reg-password">Password</label>
+        <input type="password" id="reg-password" required="required" maxlength="100" minlength="6"
+               ng-model="registerUser.password" class="form-control">
+        <br/>
+        <label for="reg-confirm-password">Confirm Password</label>
+        <input type="password" id="reg-confirm-password" required="required" maxlength="100" minlength="6"
+               ng-model="registerUser.confirmPassword" class="form-control">
+        <br/>
+        <button class="btn btn-primary"
+                ng-disabled="registerUserForm.$invalid || registerUser.password != registerUser.confirmPassword"
+                ng-click="vm.register(registerUser)">Register
+        </button>
+    </form>
+    </br>
+    <div class="alert alert-danger" ng-if="vm.errorMsg">
+        <strong>{{vm.errorMsg}}</strong>
+    </div>
+
+    <div class="alert alert-success" ng-if="vm.successMessage">
+        <strong>{{vm.successMessage}}</strong>
+    </div>
+
+
+</div>
