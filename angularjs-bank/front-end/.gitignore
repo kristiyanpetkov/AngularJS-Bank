@@ -1,0 +1,7 @@
+*~
+/build
+karma
+node_modules/
+bin/
+vendor/
+node/
