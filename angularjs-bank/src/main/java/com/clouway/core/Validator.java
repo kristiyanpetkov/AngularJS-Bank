@@ -8,4 +8,6 @@ public interface Validator {
   boolean isValid(String username, String password, String email, String confirmPassword);
 
   boolean isValid(String email, String password);
+
+  boolean isValid(Double amount);
 }

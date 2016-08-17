@@ -1,7 +1,9 @@
 /**
  * Created by kristiqn.l.petkov@gmail.com on 18.08.16.
  */
-angular.module('bank.common.http', [])
+angular.module('bank.common.http', [
+  'ui.router'
+])
 
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push(function ($q, $injector) {

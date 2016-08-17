@@ -5,7 +5,7 @@ import com.google.inject.servlet.ServletModule;
 /**
  * Created by Kristiyan Petkov  <kristiqn.l.petkov@gmail.com> on 06.07.16.
  */
-public class MyServletModule extends ServletModule {
+public class BankServletModule extends ServletModule {
   @Override
   protected void configureServlets() {
     filter("/*").through(ConnectionFilter.class);
@@ -13,8 +13,8 @@ public class MyServletModule extends ServletModule {
 
     serve("/r/register/").with(UserRegistrationService.class);
     serve("/r/login/").with(UserLoginService.class);
+    serve("/r/operation/").with(BankOperationService.class);
     serve("/r/account/").with(BankAccountService.class);
-
 
   }
 }

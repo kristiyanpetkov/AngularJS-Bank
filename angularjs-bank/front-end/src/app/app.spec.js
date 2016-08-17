@@ -1,16 +1,25 @@
 describe('AppCtrl', function () {
   describe('isCurrentUrl', function () {
-    var AppCtrl, $scope;
+    var ctrl, scope, userGateway, response;
 
-    beforeEach(module('bank'));
+    beforeEach(function () {
+      module('bank');
+      userGateway = {};
 
-    beforeEach(inject(function ($controller, $rootScope) {
-      $scope = $rootScope.$new();
-      AppCtrl = $controller('AppCtrl', {$scope: $scope});
-    }));
+      inject(function ($controller, $q, $rootScope) {
+        scope = $rootScope.$new();
+        response = $q.defer();
+        ctrl = $controller('AppCtrl', {$scope: scope, userGateway: userGateway});
+      });
+    });
 
-    it('should pass a dummy test', inject(function () {
-      expect(AppCtrl).toBeTruthy();
-    }));
+    it('display current connected user', function () {
+      userGateway.getCurrentUser = jasmine.createSpy("getCurrentUser() spy").andReturn(response.promise);
+      var responseData = 'admin@abv.bg';
+      scope.getCurrentUserEmail();
+      response.resolve(responseData);
+      scope.$digest();
+      expect(scope.currentUser).toEqual("admin@abv.bg");
+    });
   });
 });

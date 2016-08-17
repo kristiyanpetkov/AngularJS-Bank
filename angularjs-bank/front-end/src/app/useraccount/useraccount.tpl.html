@@ -1,9 +1,26 @@
-<head>
-    <meta charset="UTF-8">
-    <title>User Account Homepage</title>
-</head>
-<body>
-<h1>User Account Homepage</h1>
-<h3>{{vm.currentUser}}</h3>
-</body>
-</html>
+<div class="row" ng-init="getCurrentUserEmail()">
+    <div class="col-md-4 col-md-offset-1 ">
+        <form name="bankOperationForm">
+            <label>Amount</label>
+            <input type="number" step="0.01" min="0.01" required="required" ng-model="bank.amount" class="form-control">
+            <br>
+            <input type="radio" ng-model="bank.operation" required="required" name="transaction-operation"
+                   value="Deposit"> Deposit
+            <input type="radio" ng-model="bank.operation" required="required" name="transaction-operation"
+                   value="Withdraw"> Withdraw
+            <br>
+            <br>
+            <button class="btn btn-primary" ng-disabled="bankOperationForm.$invalid" ng-click="vm.doTransaction(bank)">
+                Make Transaction
+            </button>
+        </form>
+    </div>
+</div>
+</br>
+</br>
+<div class="alert alert-danger" ng-if="vm.errMsg">
+    {{vm.errMsg}}
+</div>
+<div class="alert alert-success" ng-if="vm.successMsg">
+    {{vm.successMsg}}
+</div>

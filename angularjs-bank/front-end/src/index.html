@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="bank" ng-controller="AppCtrl">
+<html ng-app="bank" ng-controller="AppCtrl" ng-init="getCurrentUserEmail()">
 <head>
   <title ng-bind="pageTitle"></title>
   <!-- font awesome from BootstrapCDN -->
@@ -56,9 +56,11 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div >
+          <div ng-show="isLogged">
+  <h3>You have been logged as: {{currentUser}}</h3>
+          </div>
 </div>
-
 <div class="container" ui-view="main"></div>
 
 

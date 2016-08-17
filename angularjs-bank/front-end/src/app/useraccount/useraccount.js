@@ -2,7 +2,8 @@
  * Created by kristiqn.l.petkov@gmail.com on 16.08.16.
  */
 angular.module('bank.useraccount', [
-  'ui.router'
+  'ui.router',
+  'bank.common.http'
 ])
 
   .config(function config($stateProvider) {
@@ -19,23 +20,39 @@ angular.module('bank.useraccount', [
     });
   })
 
-  .service('userGateway', function (httpRequest, bankEndpoints) {
+  .service('operationGateway', function (httpRequest, bankEndpoints) {
     return {
-      getCurrentUser: function () {
-        return httpRequest.get(bankEndpoints.USER);
+      doTransaction: function (bankOperation) {
+        return httpRequest.post(bankEndpoints.OPERATION, bankOperation);
       }
     };
   })
 
-  .controller('UserAccountCtrl', function UserAccountCtrl($scope, $rootScope, httpRequest, userGateway) {
+  .controller('UserAccountCtrl', function UserAccountCtrl($rootScope, httpRequest, operationGateway) {
     var vm = this;
-    var getCurrentUserEmail = function () {
-      userGateway.getCurrentUser().then(
-        function onSuccess(successData) {
-          vm.currentUser = 'You have been logged as: ' + successData;
-        }
-      );
-    };
+    $rootScope.isLogged = true;
 
-    getCurrentUserEmail();
+    vm.doTransaction = function (bankOperation) {
+      vm.successMsg = null;
+      vm.errMsg = null;
+      operationGateway.doTransaction(bankOperation).then(
+        function onSuccess(data) {
+          vm.successMsg = 'Transaction successful!';
+          bankOperation.amount = '';
+          vm.balance = 'Your current balance is: ' + data + ' BGN';
+        }, function onError(data) {
+          if (data.errorCode == 422) {
+            vm.errMsg = 'Amount not valid. Example for a valid amount: 123.23 or 100.00';
+          }
+          if (data.errorCode == 400) {
+            vm.errMsg = 'No amount entered!';
+          }
+          if (data.errorCode == 406) {
+            vm.errMsg = 'Not enough funds!';
+          }
+          bankOperation.amount = '';
+        });
+    };
   });
+
+
