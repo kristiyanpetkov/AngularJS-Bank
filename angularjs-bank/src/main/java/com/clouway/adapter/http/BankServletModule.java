@@ -15,6 +15,7 @@ public class BankServletModule extends ServletModule {
     serve("/r/login/").with(UserLoginService.class);
     serve("/r/operation/").with(BankOperationService.class);
     serve("/r/account/").with(BankAccountService.class);
+    serve("/r/logout/").with(UserLogoutService.class);
 
   }
 }

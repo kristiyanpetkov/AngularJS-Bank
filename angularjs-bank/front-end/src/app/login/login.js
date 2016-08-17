@@ -42,17 +42,17 @@ angular.module('bank.login', [
       }
     };
 
-    $rootScope.isLogged = false;
     vm.successfulMsg = $stateParams.msg;
 
     vm.submit = function (loginUser) {
       vm.errorMsg = '';
       loginGateway.loginUser(loginUser).then(
         function onSuccess(successData) {
-          $rootScope.isLogged = true;
           var expiresDate = new Date();
           expiresDate.setTime(expiresDate.getTime() + 5 * 60 * 1000);
           $cookies.put('sessionId', successData, {'expires': expiresDate});
+          $rootScope.currentUser = loginUser.email;
+          $rootScope.isLogged = true;
           $state.go('useraccount');
         }, function onError(errorData) {
           if (errorData.errorCode == 406) {

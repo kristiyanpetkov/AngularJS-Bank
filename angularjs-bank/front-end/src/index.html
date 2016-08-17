@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="bank" ng-controller="AppCtrl" ng-init="getCurrentUserEmail()">
+<html ng-app="bank" ng-controller="AppCtrl as vm" ng-init="vm.getCurrentUserEmail()">
 <head>
   <title ng-bind="pageTitle"></title>
   <!-- font awesome from BootstrapCDN -->
@@ -54,11 +54,14 @@
             User Account
           </a>
         </li>
+  <button ng-show="isLogged" ng-click="vm.logout()">
+          Logout
+          </button>
       </ul>
     </div>
-  </div >
-          <div ng-show="isLogged">
-  <h3>You have been logged as: {{currentUser}}</h3>
+  </div>
+                  <div ng-if="currentUser">
+                  <h3>You have been logged as: {{currentUser}}</h3>
           </div>
 </div>
 <div class="container" ui-view="main"></div>

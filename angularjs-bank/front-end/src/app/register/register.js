@@ -32,11 +32,11 @@ angular.module('bank.register', [
     var vm = this;
 
     vm.register = function (user) {
-      vm.successMessage='';
-      vm.errorMsg='';
+      vm.successMessage = '';
+      vm.errorMsg = '';
       registerGateway.registerUser(user).then(
         function onSuccess(successData) {
-            vm.successMessage = 'Registration successful!';
+          vm.successMessage = 'Registration successful!';
         }, function onError(errorData) {
           if (errorData.errorCode == 400) {
             vm.errorMsg = 'Input data is not in a valid format! Username and password should be between 6-16 characters and can contain only letters and digits.';

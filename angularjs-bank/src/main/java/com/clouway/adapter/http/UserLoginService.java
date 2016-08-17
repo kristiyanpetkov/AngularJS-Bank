@@ -1,7 +1,7 @@
 package com.clouway.adapter.http;
 
-import com.clouway.core.ErrorCodeDTO;
-import com.clouway.core.LoginDTO;
+import com.clouway.core.ErrorCodeDto;
+import com.clouway.core.LoginDto;
 import com.clouway.core.RandomGenerator;
 import com.clouway.core.Session;
 import com.clouway.core.SessionRepository;
@@ -43,12 +43,12 @@ public class UserLoginService extends HttpServlet {
     ServletOutputStream servletOutputStream = response.getOutputStream();
     response.setContentType("application/json;charset=UTF-8");
     ServletInputStream inputStream = request.getInputStream();
-    LoginDTO req = new Gson().fromJson(new InputStreamReader(inputStream), LoginDTO.class);
+    LoginDto req = new Gson().fromJson(new InputStreamReader(inputStream), LoginDto.class);
 
     boolean valid = userValidator.isValid(req.email, req.password);
     if (!valid) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      servletOutputStream.print(new Gson().toJson(new ErrorCodeDTO(400)));
+      servletOutputStream.print(new Gson().toJson(new ErrorCodeDto(400)));
       return;
     }
 
@@ -62,6 +62,6 @@ public class UserLoginService extends HttpServlet {
     }
 
     response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-    servletOutputStream.print(new Gson().toJson(new ErrorCodeDTO(406)));
+    servletOutputStream.print(new Gson().toJson(new ErrorCodeDto(406)));
   }
 }

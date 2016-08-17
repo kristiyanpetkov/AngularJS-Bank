@@ -8,7 +8,7 @@ describe('LoginCtrl', function () {
     module('bank.login');
     ctrl = {};
     loginGateway = {};
-    state={};
+    state = {};
     cookies = {};
     scope = {};
     fakeResponse = {errorCode: null};
@@ -20,7 +20,11 @@ describe('LoginCtrl', function () {
     inject(function ($controller, $q, _$rootScope_) {
       response = $q.defer();
       scope = _$rootScope_.$new();
-      ctrl = $controller('LoginCtrl', {loginGateway: loginGateway, $state: state, $cookies: cookies});
+      ctrl = $controller('LoginCtrl', {
+        loginGateway: loginGateway,
+        $state: state,
+        $cookies: cookies,
+      });
     });
   });
 
@@ -53,7 +57,7 @@ describe('LoginCtrl', function () {
     expect(ctrl.errorMsg).toEqual('Wrong email or password!');
   });
 
-  it('redirect to useraccount',function () {
+  it('redirect to useraccount', function () {
     cookies.get = jasmine.createSpy("get() spy").andReturn("sessionId");
     state.go = jasmine.createSpy("go() spy");
     ctrl.init();

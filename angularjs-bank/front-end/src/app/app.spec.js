@@ -16,7 +16,7 @@ describe('AppCtrl', function () {
     it('display current connected user', function () {
       userGateway.getCurrentUser = jasmine.createSpy("getCurrentUser() spy").andReturn(response.promise);
       var responseData = 'admin@abv.bg';
-      scope.getCurrentUserEmail();
+      ctrl.getCurrentUserEmail();
       response.resolve(responseData);
       scope.$digest();
       expect(scope.currentUser).toEqual("admin@abv.bg");

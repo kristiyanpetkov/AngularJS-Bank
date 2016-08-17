@@ -7,7 +7,8 @@ angular.module('bank', [
   'bank.login',
   'bank.useraccount',
   'ui.router',
-  'ngCookies'
+  'ngCookies',
+  'bank.logout'
 ])
 
   .config(function myAppConfig($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -18,8 +19,9 @@ angular.module('bank', [
   .constant('bankEndpoints', {
     LOGIN: '/r/login/',
     REGISTER: '/r/register/',
-    OPERATION: '/r/operation/',
-    USER: '/r/account/'
+    USER: '/r/account/',
+    LOGOUT: '/r/logout/',
+    OPERATION: '/r/operation/'
   })
 
   .service('userGateway', function (httpRequest, bankEndpoints) {
@@ -30,19 +32,28 @@ angular.module('bank', [
     };
   })
 
-  .controller('AppCtrl', function AppCtrl($scope, userGateway) {
+  .controller('AppCtrl', function AppCtrl($scope, userGateway, $rootScope, logoutService) {
+    var vm = this;
+
     $scope.$on('$stateChangeSuccess', function (event, toState) {
       if (angular.isDefined(toState.data.pageTitle)) {
         $scope.pageTitle = toState.data.pageTitle + ' | bank';
       }
     });
 
-    $scope.getCurrentUserEmail = function () {
+    vm.getCurrentUserEmail = function () {
       userGateway.getCurrentUser().then(
         function onSuccess(currentUserEmail) {
-          $scope.currentUser = currentUserEmail;
+          $rootScope.currentUser = currentUserEmail;
+          $rootScope.isLogged = true;
+        }, function onError() {
+          $rootScope.isLogged = false;
         }
       );
+    };
+
+    vm.logout = function () {
+      logoutService.logoutUser();
     };
   });
 
