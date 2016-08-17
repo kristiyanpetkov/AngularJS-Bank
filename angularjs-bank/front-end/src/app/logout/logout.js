@@ -33,9 +33,9 @@ angular.module('bank.logout', [
       logoutUser: function () {
         var sessionId = $cookies.get('sessionId');
         logoutGateway.logout(sessionId).then(
-          function onSuccess() {
+          function onSuccess(sessionsCount) {
             $cookies.remove('sessionId');
-            $rootScope.isLogged = false;
+            $rootScope.onlineUsers = sessionsCount;
             $rootScope.currentUser = undefined;
             $state.go('home');
           });

@@ -34,7 +34,7 @@ public class BankOperationService extends HttpServlet {
     ServletOutputStream servletOutputStream = response.getOutputStream();
     response.setContentType("application/json;charset=UTF-8");
     ServletInputStream inputStream = request.getInputStream();
-    BankOperationDTO req = new Gson().fromJson(new InputStreamReader(inputStream), BankOperationDTO.class);
+    BankOperationDto req = new Gson().fromJson(new InputStreamReader(inputStream), BankOperationDto.class);
     boolean success = false;
 
     CurrentUser currentUser = userProvider.getCurrentUser(request);
@@ -42,7 +42,7 @@ public class BankOperationService extends HttpServlet {
 
     if (!validator.isValid(req.amount)) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      servletOutputStream.print(new Gson().toJson(new ErrorCodeDTO(422)));
+      servletOutputStream.print(new Gson().toJson(new ErrorCodeDto(422)));
       return;
     }
 
@@ -63,6 +63,6 @@ public class BankOperationService extends HttpServlet {
     }
 
     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-    servletOutputStream.print(new Gson().toJson(new ErrorCodeDTO(406)));
+    servletOutputStream.print(new Gson().toJson(new ErrorCodeDto(406)));
   }
 }

@@ -1,12 +1,6 @@
 package com.clouway.adapter.http;
 
-import com.clouway.core.ErrorCodeDto;
-import com.clouway.core.LoginDto;
-import com.clouway.core.RandomGenerator;
-import com.clouway.core.Session;
-import com.clouway.core.SessionRepository;
-import com.clouway.core.UserRepository;
-import com.clouway.core.Validator;
+import com.clouway.core.*;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,13 +23,15 @@ public class UserLoginService extends HttpServlet {
   private SessionRepository sessionRepository;
   private Validator userValidator;
   private RandomGenerator randomGenerator;
+  private FundsRepository fundsRepository;
 
   @Inject
-  public UserLoginService(UserRepository userRepository, SessionRepository sessionRepository, Validator userValidator, RandomGenerator randomGenerator) {
+  public UserLoginService(UserRepository userRepository, SessionRepository sessionRepository, Validator userValidator, RandomGenerator randomGenerator, FundsRepository fundsRepository) {
     this.userRepository = userRepository;
     this.sessionRepository = sessionRepository;
     this.userValidator = userValidator;
     this.randomGenerator = randomGenerator;
+    this.fundsRepository = fundsRepository;
   }
 
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +42,7 @@ public class UserLoginService extends HttpServlet {
     LoginDto req = new Gson().fromJson(new InputStreamReader(inputStream), LoginDto.class);
 
     boolean valid = userValidator.isValid(req.email, req.password);
+
     if (!valid) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       servletOutputStream.print(new Gson().toJson(new ErrorCodeDto(400)));
@@ -57,7 +54,9 @@ public class UserLoginService extends HttpServlet {
       String uuid = randomGenerator.generateUUID();
       Session session = new Session(req.email, uuid);
       sessionRepository.create(session);
-      servletOutputStream.print(new Gson().toJson(uuid));
+      Integer activeSessions = sessionRepository.getActiveSessions();
+      Double currentBalance = fundsRepository.getBalance(req.email);
+      servletOutputStream.print(new Gson().toJson(new InitialDataDto(uuid, activeSessions, currentBalance)));
       return;
     }
 

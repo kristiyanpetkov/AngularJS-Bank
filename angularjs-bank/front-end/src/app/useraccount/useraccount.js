@@ -30,16 +30,15 @@ angular.module('bank.useraccount', [
 
   .controller('UserAccountCtrl', function UserAccountCtrl($rootScope, httpRequest, operationGateway) {
     var vm = this;
-    $rootScope.isLogged = true;
 
     vm.doTransaction = function (bankOperation) {
       vm.successMsg = null;
       vm.errMsg = null;
       operationGateway.doTransaction(bankOperation).then(
-        function onSuccess(data) {
+        function onSuccess(currentBalance) {
           vm.successMsg = 'Transaction successful!';
           bankOperation.amount = '';
-          vm.balance = 'Your current balance is: ' + data + ' BGN';
+          $rootScope.currentBalance = currentBalance;
         }, function onError(data) {
           if (data.errorCode == 422) {
             vm.errMsg = 'Amount not valid. Example for a valid amount: 123.23 or 100.00';

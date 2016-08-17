@@ -2,12 +2,13 @@
  * Created by kristiqn.l.petkov@gmail.com on 01.09.16.
  */
 describe('LoginCtrl', function () {
-  var response, ctrl, loginGateway, state, scope, fakeResponse, loginUser, cookies;
+  var response, ctrl, loginGateway, state, scope, fakeResponse, loginUser, cookies, userGateway;
 
   beforeEach(function () {
     module('bank.login');
     ctrl = {};
     loginGateway = {};
+    userGateway = {};
     state = {};
     cookies = {};
     scope = {};
@@ -24,6 +25,7 @@ describe('LoginCtrl', function () {
         loginGateway: loginGateway,
         $state: state,
         $cookies: cookies,
+        userGateway: userGateway
       });
     });
   });

@@ -39,7 +39,7 @@ public class UserLogoutService extends HttpServlet {
 
     if (logoutReq.sessionId != null) {
       sessionRepository.delete(logoutReq.sessionId);
-      resp.setStatus(200);
+      servletOutputStream.print(new Gson().toJson(sessionRepository.getActiveSessions()));
     }
   }
 }

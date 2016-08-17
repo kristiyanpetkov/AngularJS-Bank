@@ -19,5 +19,7 @@ public interface SessionRepository {
 
   String getCurrentUserEmail(String sessionId);
 
+  Integer getActiveSessions();
+
 
 }

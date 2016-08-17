@@ -38,7 +38,7 @@ public class SecurityFilter implements Filter {
     Cookie[] cookies = request.getCookies();
     Cookie cookie = cookieFinder.find(cookies);
 
-    if (request.getRequestURI().contains("login") || request.getRequestURI().contains("register")) {
+    if (request.getRequestURI().contains("login") || request.getRequestURI().contains("register") || request.getRequestURI().contains("session")) {
       filterChain.doFilter(request, response);
       return;
     }

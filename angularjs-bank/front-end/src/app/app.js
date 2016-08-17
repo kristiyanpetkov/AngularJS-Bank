@@ -21,18 +21,23 @@ angular.module('bank', [
     REGISTER: '/r/register/',
     USER: '/r/account/',
     LOGOUT: '/r/logout/',
-    OPERATION: '/r/operation/'
+    OPERATION: '/r/operation/',
+    ONLINEUSERS: '/r/onlineusers/'
   })
+
 
   .service('userGateway', function (httpRequest, bankEndpoints) {
     return {
       getCurrentUser: function () {
         return httpRequest.get(bankEndpoints.USER);
+      },
+      getOnlineUsers: function () {
+        return httpRequest.get(bankEndpoints.ONLINEUSERS);
       }
     };
   })
 
-  .controller('AppCtrl', function AppCtrl($scope, userGateway, $rootScope, logoutService) {
+  .controller('AppCtrl', function AppCtrl($scope, userGateway, $rootScope,logoutService) {
     var vm = this;
 
     $scope.$on('$stateChangeSuccess', function (event, toState) {
@@ -45,9 +50,14 @@ angular.module('bank', [
       userGateway.getCurrentUser().then(
         function onSuccess(currentUserEmail) {
           $rootScope.currentUser = currentUserEmail;
-          $rootScope.isLogged = true;
-        }, function onError() {
-          $rootScope.isLogged = false;
+        }
+      );
+    };
+
+    vm.getActiveSessions = function () {
+      userGateway.getOnlineUsers().then(
+        function onSuccess(onlineUsers) {
+          $rootScope.onlineUsers = onlineUsers;
         }
       );
     };

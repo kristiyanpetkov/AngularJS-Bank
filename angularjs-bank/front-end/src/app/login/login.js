@@ -47,12 +47,13 @@ angular.module('bank.login', [
     vm.submit = function (loginUser) {
       vm.errorMsg = '';
       loginGateway.loginUser(loginUser).then(
-        function onSuccess(successData) {
+        function onSuccess(initialData) {
           var expiresDate = new Date();
           expiresDate.setTime(expiresDate.getTime() + 5 * 60 * 1000);
-          $cookies.put('sessionId', successData, {'expires': expiresDate});
+          $cookies.put('sessionId', initialData.uuid, {'expires': expiresDate});
           $rootScope.currentUser = loginUser.email;
-          $rootScope.isLogged = true;
+          $rootScope.currentBalance = initialData.currentBalance;
+          $rootScope.onlineUsers = initialData.sessionsCount;
           $state.go('useraccount');
         }, function onError(errorData) {
           if (errorData.errorCode == 406) {
