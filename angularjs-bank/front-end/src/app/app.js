@@ -8,7 +8,8 @@ angular.module('bank', [
   'bank.useraccount',
   'ui.router',
   'ngCookies',
-  'bank.logout'
+  'bank.logout',
+  'bank.history'
 ])
 
   .config(function myAppConfig($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -22,7 +23,8 @@ angular.module('bank', [
     USER: '/r/account/',
     LOGOUT: '/r/logout/',
     OPERATION: '/r/operation/',
-    ONLINEUSERS: '/r/onlineusers/'
+    ONLINEUSERS: '/r/onlineusers/',
+    HISTORY: 'r/history/'
   })
 
 
@@ -37,7 +39,7 @@ angular.module('bank', [
     };
   })
 
-  .controller('AppCtrl', function AppCtrl($scope, userGateway, $rootScope,logoutService) {
+  .controller('AppCtrl', function AppCtrl($scope, userGateway, $rootScope, logoutService) {
     var vm = this;
 
     $scope.$on('$stateChangeSuccess', function (event, toState) {
@@ -46,10 +48,11 @@ angular.module('bank', [
       }
     });
 
-    vm.getCurrentUserEmail = function () {
+    vm.getCurrentUser = function () {
       userGateway.getCurrentUser().then(
-        function onSuccess(currentUserEmail) {
-          $rootScope.currentUser = currentUserEmail;
+        function onSuccess(userData) {
+          $rootScope.currentUser = userData.email;
+          $rootScope.currentBalance = userData.balance;
         }
       );
     };

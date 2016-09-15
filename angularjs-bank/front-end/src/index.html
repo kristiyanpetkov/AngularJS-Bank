@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="bank" ng-controller="AppCtrl as vm" ng-init="vm.getCurrentUserEmail();vm.getActiveSessions()">
+<html ng-app="bank" ng-controller="AppCtrl as vm" ng-init="vm.getCurrentUser();vm.getActiveSessions()">
 <head>
   <title ng-bind="pageTitle"></title>
   <!-- font awesome from BootstrapCDN -->
@@ -48,13 +48,19 @@
             Register
           </a>
         </li>
+          <li ng-show="currentUser">
+          <a href ui-sref="history">
+          <i class="fa fa-book"></i>
+          History
+          </a>
+          </li>
         <li ng-show="currentUser">
           <a href ui-sref="useraccount">
             <i class="fa fa-credit-card"></i>
             User Account
           </a>
         </li>
-  <button ng-show="currentUser" ng-click="vm.logout()">
+  <button ng-show="currentUser" ng-click="vm.logout()" class="btn btn-default nav-bar">
           Logout
           </button>
       </ul>

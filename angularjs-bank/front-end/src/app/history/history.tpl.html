@@ -1,0 +1,25 @@
+<div ng-init="vm.getHistoryLog(1)">
+    <table class="table table-striped">
+        <h2>Transaction History:</h2>
+        <tr>
+            <th> Id</th>
+            <th> Date</th>
+            <th> E-mail</th>
+            <th> Operation</th>
+            <th> Amount</th>
+        </tr>
+        <tr ng-repeat="transaction in vm.transactions">
+            <td>{{transaction.id}}</td>
+            <td>{{transaction.date | date}}</td>
+            <td>{{transaction.email}}</td>
+            <td>{{transaction.operation}}</td>
+            <td>{{transaction.amount}}</td>
+        </tr>
+    </table>
+    <nav aria-label="...">
+        <ul class="pager">
+            <li><a ng-click="vm.getHistoryLog(vm.page-1)">Previous</a></li>
+            <li><a ng-click="vm.getHistoryLog(vm.page+1)">Next</a></li>
+        </ul>
+    </nav>
+</div>

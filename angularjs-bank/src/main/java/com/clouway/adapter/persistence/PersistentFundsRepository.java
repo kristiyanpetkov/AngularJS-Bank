@@ -98,4 +98,47 @@ public class PersistentFundsRepository implements FundsRepository {
     }
     return succesfull;
   }
+
+  public void updateHistory(String email, String operation, Double amount) {
+    Connection connection = connectionProvider.get();
+    PreparedStatement statement = null;
+    try {
+      statement = connection.prepareStatement("INSERT INTO transactions (date, email, operation, amount) VALUES ("+System.currentTimeMillis()+",?,?,?)");
+      statement.setString(1, email);
+      statement.setString(2, operation);
+      statement.setDouble(3, amount);
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        statement.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public List<Transaction> getHistory(Integer limit, Integer offset) {
+    Connection connection = connectionProvider.get();
+    PreparedStatement statement = null;
+    List<Transaction> transactions = new ArrayList<Transaction>();
+    try {
+      statement = connection.prepareStatement("SELECT * FROM transactions LIMIT " + limit + " OFFSET " + offset + "");
+      ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next()) {
+        String date = DateFormat.getDateTimeInstance().format(new Date(resultSet.getLong(2)));
+        transactions.add(new Transaction(resultSet.getInt(1), date, resultSet.getString(3), resultSet.getString(4), resultSet.getDouble(5)));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        statement.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+    return transactions;
+  }
 }

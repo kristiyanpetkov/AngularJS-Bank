@@ -12,4 +12,8 @@ public interface FundsRepository {
   boolean withdraw(Double amount, String email);
 
   double getBalance(String email);
+
+  void updateHistory(String email, String operation, Double amount);
+
+  List<Transaction> getHistory(Integer limit, Integer offset);
 }

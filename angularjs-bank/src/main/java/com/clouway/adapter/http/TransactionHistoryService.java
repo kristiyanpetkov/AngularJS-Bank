@@ -1,9 +1,7 @@
 package com.clouway.adapter.http;
 
-import com.clouway.core.CurrentUser;
 import com.clouway.core.FundsRepository;
-import com.clouway.core.UserBalanceDto;
-import com.clouway.core.UserProvider;
+import com.clouway.core.Transaction;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -14,29 +12,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
- * Created by Kristiyan Petkov  <kristiqn.l.petkov@gmail.com> on 08.06.16.
+ * Created by Kristiyan Petkov  <kristiqn.l.petkov@gmail.com> on 13.06.16.
  */
 @Singleton
-public class BankAccountService extends HttpServlet {
-  private UserProvider userProvider;
+public class TransactionHistoryService extends HttpServlet {
   private FundsRepository fundsRepository;
+  public static final int PAGE_SIZE = 20;
 
   @Inject
-  public BankAccountService(UserProvider userProvider, FundsRepository fundsRepository) {
-    this.userProvider = userProvider;
+  public TransactionHistoryService(FundsRepository fundsRepository) {
     this.fundsRepository = fundsRepository;
   }
 
+  @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     ServletOutputStream servletOutputStream = response.getOutputStream();
     response.setContentType("application/json;charset=UTF-8");
 
-    CurrentUser currentUser = userProvider.getCurrentUser(request);
-    Double currentBalance = fundsRepository.getBalance(currentUser.email);
+    List<Transaction> transactions = null;
+    Integer currentPage;
 
-    servletOutputStream.print(new Gson().toJson(new UserBalanceDto(currentUser.email, currentBalance)));
+    if (request.getParameter("page") == null) {
+      currentPage = 1;
+    } else {
+      currentPage = Integer.valueOf(request.getParameter("page"));
+    }
 
+    if (currentPage >= 1) {
+      transactions = fundsRepository.getHistory(PAGE_SIZE, (currentPage - 1) * PAGE_SIZE);
+    }
+
+    servletOutputStream.print(new Gson().toJson(transactions));
   }
 }

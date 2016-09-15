@@ -22,13 +22,15 @@ describe('AppCtrl', function () {
       scope.$digest();
       expect(scope.onlineUsers).toEqual(5);
     });
+
     it('display current connected user', function () {
       userGateway.getCurrentUser = jasmine.createSpy("getCurrentUser() spy").andReturn(response.promise);
-      var responseData = 'admin@abv.bg';
-      ctrl.getCurrentUserEmail();
+      var responseData = {email: 'admin@abv.bg', balance: 200.00};
+      ctrl.getCurrentUser();
       response.resolve(responseData);
       scope.$digest();
       expect(scope.currentUser).toEqual("admin@abv.bg");
+      expect(scope.currentBalance).toEqual(200.00);
     });
   });
 });
